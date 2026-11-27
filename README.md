@@ -71,4 +71,5 @@ Situs ini berkas statis, jadi cukup dihidangkan apa adanya.
 
 GitHub Pages membutuhkan repo **publik** di GitHub Free. Kalau repo kembali
 privat, workflow tetap hijau tetapi melewati deploy dan menulis catatan di
-ringkasan run.
+ringkasan run. Setelah repo diubah menjadi publik, jalankan workflow sekali dari
+tab Actions; deploy pertama butuh sekitar satu menit sebelum tautannya hidup.
