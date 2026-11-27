@@ -57,3 +57,16 @@ Jika jumlah kartunya baru, tambahkan juga aturan kolom untuk `data-count` di
 
 Bacaan disimpan di `localStorage`, jadi per peramban dan per perangkat. Menghapus
 data situs akan ikut menghapusnya. Gunakan Ekspor jika ingin salinan.
+
+
+## Hosting
+
+Situs ini berkas statis, jadi cukup dihidangkan apa adanya.
+
+- **FreeMilk**: tombol Run menerbitkan preview privat di
+  `arcana-9smm--preview.freemilk.app`.
+- **GitHub Pages**: `.github/workflows/pages.yml` menerbitkan situs ke
+  `https://<pemilik>.github.io/arcana/`, tapi hanya dijalankan manual dari tab
+  Actions. GitHub Pages di GitHub Free hanya tersedia untuk repo publik; repo
+  privat butuh paket Pro, Team, atau Enterprise. Selama repo masih privat,
+  workflow ini akan berhenti dengan pesan yang menjelaskan hal itu.
