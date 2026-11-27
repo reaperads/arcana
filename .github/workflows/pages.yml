@@ -1,8 +1,10 @@
 name: Deploy preview to GitHub Pages
 
+# Hanya manual: GitHub Pages belum tersedia untuk repo privat ini, jadi menjalankan
+# workflow pada setiap push hanya menghasilkan run yang gagal. Jalankan dari tab
+# Actions setelah Pages tersedia (repo publik, atau repo privat dengan paket
+# GitHub Pro/Team/Enterprise).
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -25,9 +27,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure Pages
+        id: pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+        continue-on-error: true
+
+      - name: Explain why Pages is unavailable
+        if: steps.pages.outcome == 'failure'
+        run: |
+          echo "::error::GitHub Pages tidak bisa dipakai untuk repo ini. Repo privat butuh GitHub Pro, Team, atau Enterprise; di GitHub Free, Pages hanya untuk repo publik."
+          exit 1
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
