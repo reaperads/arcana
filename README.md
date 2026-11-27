@@ -63,10 +63,12 @@ data situs akan ikut menghapusnya. Gunakan Ekspor jika ingin salinan.
 
 Situs ini berkas statis, jadi cukup dihidangkan apa adanya.
 
+- **GitHub Pages**: `https://reaperads.github.io/arcana/`. Workflow
+  `.github/workflows/pages.yml` menerbitkan situs pada setiap push ke `main`,
+  atau manual dari tab Actions.
 - **FreeMilk**: tombol Run menerbitkan preview privat di
   `arcana-9smm--preview.freemilk.app`.
-- **GitHub Pages**: `.github/workflows/pages.yml` menerbitkan situs ke
-  `https://<pemilik>.github.io/arcana/`, tapi hanya dijalankan manual dari tab
-  Actions. GitHub Pages di GitHub Free hanya tersedia untuk repo publik; repo
-  privat butuh paket Pro, Team, atau Enterprise. Selama repo masih privat,
-  workflow ini akan berhenti dengan pesan yang menjelaskan hal itu.
+
+GitHub Pages membutuhkan repo **publik** di GitHub Free. Kalau repo kembali
+privat, workflow tetap hijau tetapi melewati deploy dan menulis catatan di
+ringkasan run.

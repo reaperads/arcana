@@ -1,10 +1,12 @@
 name: Deploy preview to GitHub Pages
 
-# Hanya manual: GitHub Pages belum tersedia untuk repo privat ini, jadi menjalankan
-# workflow pada setiap push hanya menghasilkan run yang gagal. Jalankan dari tab
-# Actions setelah Pages tersedia (repo publik, atau repo privat dengan paket
-# GitHub Pro/Team/Enterprise).
+# Menerbitkan situs ke https://<pemilik>.github.io/arcana/ pada setiap push ke main.
+# GitHub Pages di GitHub Free hanya tersedia untuk repo publik. Selama repo masih
+# privat, workflow ini tetap hijau tetapi melewati deploy dan menulis catatan
+# di ringkasan run.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -33,17 +35,18 @@ jobs:
           enablement: true
         continue-on-error: true
 
-      - name: Explain why Pages is unavailable
+      - name: Pages unavailable, skip deploy
         if: steps.pages.outcome == 'failure'
         run: |
-          echo "::error::GitHub Pages tidak bisa dipakai untuk repo ini. Repo privat butuh GitHub Pro, Team, atau Enterprise; di GitHub Free, Pages hanya untuk repo publik."
-          exit 1
+          echo "::notice title=Deploy dilewati::GitHub Pages belum aktif untuk repo ini. Repo privat butuh GitHub Pro, Team, atau Enterprise; di GitHub Free, Pages hanya untuk repo publik. Ubah visibilitas jadi publik (Settings > General > Danger zone > Change visibility), lalu push lagi."
 
       - name: Upload site
+        if: steps.pages.outcome == 'success'
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
       - name: Deploy
         id: deployment
+        if: steps.pages.outcome == 'success'
         uses: actions/deploy-pages@v4
