@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcana — sistem tarot</title>
+<meta name="description" content="Undi penyebaran tarot, balik kartunya, baca maknanya, dan simpan jurnal. 78 kartu, empat penyebaran, tanpa akun.">
+<meta name="theme-color" content="#0a0710">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <h1>Arcana</h1>
+    <p class="tagline">Sistem tarot untuk pertanyaan yang layak diajukan.</p>
+  </div>
+  <nav class="tabs" aria-label="Bagian">
+    <button class="tab is-active" type="button" data-view="reading" aria-current="page">Bacaan</button>
+    <button class="tab" type="button" data-view="library">Perpustakaan</button>
+    <button class="tab" type="button" data-view="journal">Jurnal</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ================= Bacaan ================= -->
+  <section class="view" id="view-reading">
+
+    <form class="panel setup" id="draw-form" autocomplete="off">
+      <label class="field">
+        <span class="field-label">Pertanyaanmu <em>(opsional)</em></span>
+        <textarea id="question" rows="2" maxlength="240" placeholder="Apa yang perlu aku lihat tentang…"></textarea>
+      </label>
+
+      <fieldset class="field">
+        <legend class="field-label">Penyebaran</legend>
+        <div class="spread-options">
+          <label class="spread-option">
+            <input type="radio" name="spread" value="single">
+            <span class="spread-chip">
+              <span class="spread-name">Satu kartu</span>
+              <span class="spread-hint">Jawaban yang jelas</span>
+            </span>
+          </label>
+          <label class="spread-option">
+            <input type="radio" name="spread" value="three" checked>
+            <span class="spread-chip">
+              <span class="spread-name">Tiga kartu</span>
+              <span class="spread-hint">Masa lalu · sekarang · masa depan</span>
+            </span>
+          </label>
+          <label class="spread-option">
+            <input type="radio" name="spread" value="horseshoe">
+            <span class="spread-chip">
+              <span class="spread-name">Tapal kuda</span>
+              <span class="spread-hint">Lima sudut pandang atas satu pertanyaan</span>
+            </span>
+          </label>
+          <label class="spread-option">
+            <input type="radio" name="spread" value="celtic">
+            <span class="spread-chip">
+              <span class="spread-name">Salib Celtic</span>
+              <span class="spread-hint">Gambaran lengkap, sepuluh kartu</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="form-row">
+        <label class="switch">
+          <input type="checkbox" id="reversals" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>Izinkan kartu terbalik</span>
+        </label>
+        <button class="btn btn-primary" type="submit">Kocok &amp; undi</button>
+      </div>
+    </form>
+
+    <div class="reading" id="reading" hidden>
+      <div class="reading-head">
+        <p class="eyebrow" id="reading-spread-label">Tiga kartu</p>
+        <h2 id="reading-title">Bacaanmu</h2>
+        <p class="reading-meta" id="reading-meta"></p>
+      </div>
+
+      <div class="spread" id="spread" role="group" aria-label="Kartu yang diundi"></div>
+
+      <div class="reading-actions">
+        <button class="btn" type="button" id="reveal-all">Buka semua</button>
+        <button class="btn btn-ghost" type="button" id="save-reading" disabled>Simpan ke jurnal</button>
+        <button class="btn btn-ghost" type="button" id="copy-reading">Salin</button>
+        <button class="btn btn-ghost" type="button" id="new-reading">Bacaan baru</button>
+      </div>
+
+      <div class="interpretation" id="interpretation" hidden></div>
+    </div>
+  </section>
+
+  <!-- ================= Perpustakaan ================= -->
+  <section class="view" id="view-library" hidden>
+    <div class="view-head">
+      <div>
+        <p class="eyebrow">Dek</p>
+        <h2>Setiap kartu dan maknanya</h2>
+        <p class="reading-meta" id="library-count"></p>
+      </div>
+      <input type="search" id="library-search" class="search" placeholder="Cari kartu…" aria-label="Cari kartu">
+    </div>
+    <div class="chips" id="library-filters" role="group" aria-label="Saring menurut jenis">
+      <button class="chip is-active" type="button" data-filter="all">Semua 78</button>
+      <button class="chip" type="button" data-filter="major">Arkana Mayor</button>
+      <button class="chip" type="button" data-filter="wands">Wands</button>
+      <button class="chip" type="button" data-filter="cups">Cups</button>
+      <button class="chip" type="button" data-filter="swords">Swords</button>
+      <button class="chip" type="button" data-filter="pentacles">Pentacles</button>
+    </div>
+    <div class="library-grid" id="library-grid"></div>
+  </section>
+
+  <!-- ================= Jurnal ================= -->
+  <section class="view" id="view-journal" hidden>
+    <div class="view-head">
+      <div>
+        <p class="eyebrow">Bacaan tersimpan</p>
+        <h2>Jurnal</h2>
+        <p class="reading-meta">Tersimpan di perangkat ini saja.</p>
+      </div>
+      <button class="btn btn-ghost" type="button" id="export-journal">Ekspor JSON</button>
+    </div>
+    <div class="journal-list" id="journal-list"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>78 kartu · empat penyebaran · tanpa akun, tanpa pelacakan. Bacaan disimpan di peramban ini saja.</p>
+  <p class="fine">Alat refleksi, bukan ramalan masa depan.</p>
+  <p class="fine">Gambar kartu: Rider-Waite-Smith (1910), domain publik, via Wikimedia Commons.</p>
+</footer>
+
+<div class="modal" id="card-modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" type="button" data-close aria-label="Tutup">&times;</button>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="cards-major.js" defer></script>
+<script src="cards-minor.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
